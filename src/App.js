@@ -1,25 +1,41 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+      <div className="container">
+        <header>
+          <h1 className="text-center">
+            Form Validation
+          </h1>
         </header>
+        <form>
+          <div className="form-group">
+            <label htmlFor="contactName">Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="contactName"
+              placeholder="Enter name" />
+            <small
+              id="contactName"
+              className="form-text text-muted">
+              Never add a contact with no potential.</small>
+          </div>
+          <div className="form-group">
+            <label htmlFor="contactPhone">The Phone Number</label>
+            <input
+              type="tel"
+              className="form-control"
+              id="contactPhone"
+              placeholder="01294 8331932" />
+          </div>
+          {/* <button
+            type="submit"
+            className="btn btn-primary">
+            Submit
+          </button> */}
+        </form>
       </div>
     );
   }
