@@ -1,3 +1,8 @@
+[ ] update state
+[ ] refactor and simplify 
+[ ] add onBlur
+
+
 Notes from:
 
 https://dev.to/nsebhastian/react-form-real-time-validation-using-state-1eeg
@@ -20,7 +25,7 @@ handleChange = e => {
   onChange={this.handleChange}
   value={this.state.value}
 />
-````
+
 
 Validation
 Displaying errors

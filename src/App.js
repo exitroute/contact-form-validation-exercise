@@ -5,53 +5,47 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      nameControl: null
+      name: "",
+      email: "",
+      nameError: "",
+      emailError: ""
     }
   };
 
-  // addContactData = (data) => {
-  //     console.log(data);
-
-  //   this.setState((state) => {
-  //     state = data;
-  //     return state;
-  //   });
-  // }
-
-  handleNameInputChange = (e) => {
-    console.log(this.nameInput.current.value)
-    if (this.nameInput.current.value.length < 5) {
-      this.setState({ nameControl: false })
-    } else {
-      this.setState({ nameControl: true })
-    }
-    // this.addContactData(input);    
+  handleNameChange = () => {
+    this.setState({ name: this.nameInput.current.value }, () => {
+      this.validateName();
+    });
   }
 
-  validateEmail = (email) => {
-    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
+  validateName = () => {
+    const { name } = this.state;
+    this.setState({
+      nameError: name.length < 3 ? null : "Don't you want to be a bit more descriptive?"
+    });
   }
 
-  handleMailInputChange = (e) => {
-    let email = this.mailInput.current.value;
-    if (this.validateEmail(email)) {
-      this.setState({ email: false })
-    } else {
-      this.setState({ email: true })
-    }
-    // this.addContactData(input);
+  handleEmailChange = () => {
+    this.setState(
+      { name: this.mailInput.current.value }, () => {
+        this.validateEmail();
+      });
   }
 
-  // displayControl = () => {
+  validateEmail = () => {
+    const { email } = this.state;
+    const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  //   console.log(this.state.name);
+    this.setState({
+      emailError: regex.test(String(email).toLowerCase()) ? null : "Doesnt look right"
+    });
+  }
 
-  //   if (this.state.nameControl === null) { let nameInputClass = "form-control"; return nameInputClass }
-  //   else if (this.state.nameControl === true) { let nameInputClass = "is-valid"; return nameInputClass }
-  //   else if (this.state.nameControl === false) { let nameInputClass = "is-invalid"; return nameInputClass };
-
-  // }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, email } = this.state;
+    console.log(name, email);
+  };
 
   nameInput = React.createRef();
   mailInput = React.createRef();
@@ -59,42 +53,41 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <header>
-          <h1 className="text-center">
-            Form Validation
+        <h1 className="text-center">
+          Form Validation
           </h1>
-        </header>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="contactName">Name</label>
             <input
               type="text"
-              className={
-                this.state.nameControl === null
-                  ? "form-control" : this.state.nameControl === true
-                    ? "form-control is-valid" : "form-control is-invalid"
-              }
+              className={`form-control ${this.state.nameError ? "is-valid" : ""}`}
               id="contactName"
               placeholder="Enter name"
               ref={this.nameInput}
-              onChange={this.handleNameInputChange} />
-            <small
-              id="contactName"
-              className="form-text text-muted">
-              Never add a contact with no potential.</small>
+              onChange={this.handleNameChange}
+              onBlur={this.validateName}>
+            </input>
+            <div className="invalid-feedback">{this.state.nameError}</div>
           </div>
           <div className="form-group">
             <label htmlFor="contactEmail">Email</label>
             <input
               type="email"
-              className={this.state.email ? " form-control is-invalid" : " form-control is-valid"}
+              className={`form-control ${this.state.emailError ? "is-valid" : ""}`}
               id="contactEmail"
               placeholder="contact-name@mailserver.com"
               ref={this.mailInput}
-              onChange={this.handleMailInputChange} />
+              onChange={this.handleEmailChange}
+              onBlur={this.validateEmail} />
           </div>
+          <button
+            type='submit'
+            className='btn btn-success btn-block'>
+            Submit
+          </button>
         </form>
-      </div>
+      </div >
     );
   }
 }
