@@ -20,7 +20,7 @@ class App extends Component {
 
   handleNameInputChange = (e) => {
     console.log(this.nameInput.current.value)
-    if (this.nameInput.current.value.length > 5) {
+    if (this.nameInput.current.value.length < 5) {
       this.setState({ nameControl: false })
     } else {
       this.setState({ nameControl: true })
